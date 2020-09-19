@@ -1,13 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql')
-let port = process.env.PORT || 8000;
-const app = express();
+const mysql = require('mysql');
+var app = express();
 
-var serveStatic = require('serve-static');
-
-app.use(serveStatic(path.join(__dirname, 'dist')))
-
+var port = process.env.PORT || 8000;
 
 //app.use(bodyParser.urlencoded({ extended: true }));
 
