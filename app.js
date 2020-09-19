@@ -44,10 +44,10 @@ app.get('/user', (req, res) => {
      
      connection.end();
  
-     res.setHeader("Content-Type", "text/html");
-     res.write("<p>Thanks</p>");
-     res.send("Thanks");
-     res.status(200).end();
+     res.status(200).json({
+        status: 'succes',
+        data: req.body,
+     });
  })
 
 
