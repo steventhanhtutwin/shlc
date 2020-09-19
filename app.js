@@ -44,7 +44,7 @@ app.get('/user', (req, res) => {
      
      connection.end();
  
-     //res.send("Thanks");
+     res.send("Thanks");
      res.sendStatus(200);
      res.end();
  })
