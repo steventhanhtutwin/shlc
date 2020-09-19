@@ -44,9 +44,10 @@ app.get('/user', (req, res) => {
      
      connection.end();
  
+     res.setHeader("Content-Type", "text/html");
+     res.write("<p>Thanks</p>");
      res.send("Thanks");
-     res.sendStatus(200);
-     res.end();
+     res.status(200).end();
  })
 
 
