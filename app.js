@@ -1,9 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql')
-
+const port = process.env.PORT || 8000;
 const app = express();
-const port = process.env.PORT || 3000;
+
+var serveStatic = require('serve-static');
+
+app.use(serveStatic(path.join(__dirname, 'dist')))
+
 
 //app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -53,4 +57,4 @@ app.get('/user', (req, res) => {
 })
 
 
-app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
+app.listen(port, () => console.log(`Server is listening on port ${port}...`));
