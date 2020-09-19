@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql')
-const port = process.env.PORT || 8000;
+let port = process.env.PORT || 8000;
 const app = express();
 
 var serveStatic = require('serve-static');
