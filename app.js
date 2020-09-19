@@ -18,16 +18,6 @@ app.get("/", function (req, res) {
 
 app.get('/user', (req, res) => {
 
-    var a = req.query.username;
-
-    console.log(a);
-
-    var json = JSON.stringify(req.body);
- 
-    console.log(json);
- 
-    var getdata = JSON.parse(json);
- 
     //console.log(req.body);
  
      var connection = mysql.createConnection({
@@ -36,13 +26,13 @@ app.get('/user', (req, res) => {
          host:'us-cdbr-east-02.cleardb.com',
          database:'heroku_2fa387dfa408f94'
      })
-   
-     var username = getdata.username;
-     var password = getdata.password;
-     var email = getdata.email ;
-     var phonenumber = getdata.phonenumber;
-     var address = getdata.address ;
-     var selectpainting = getdata.selectpainting;
+    
+    var username = req.query.username;
+    var password = req.query.password;
+    var email = req.query.email;
+    var phonenumber = req.query.phonenumber;
+    var address = req.query.address;
+    var selectpainting = req.query.selectpainting;
  
      connection.connect()
  
