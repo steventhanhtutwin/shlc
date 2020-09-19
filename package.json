@@ -1,7 +1,6 @@
 {
   "name": "nodejs",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -14,5 +13,14 @@
     "start": "node app.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steventhanhtutwin/shlc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/steventhanhtutwin/shlc/issues"
+  },
+  "homepage": "https://github.com/steventhanhtutwin/shlc#readme",
+  "description": ""
 }
