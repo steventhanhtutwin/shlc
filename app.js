@@ -47,7 +47,7 @@ app.get('/user', (req, res) => {
      res.status(200).json({
         status: 'succes',
         data: req.body,
-     });
+     })
  })
 
 
