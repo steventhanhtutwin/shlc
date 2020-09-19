@@ -9,6 +9,8 @@ app.use(express.static("public"));
 
 app.use(bodyParser.json());
 
+app.use(bodyParser.urlencoded());
+
 // define the first route
 app.get("/", function (req, res) {
   res.send("<h1>Hello World!</h1>");
