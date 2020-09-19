@@ -1,8 +1,12 @@
 // create an express app
 const express = require("express");
+var cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+
 const app = express();
+
+app.use(cors());
 
 // use the express-static middleware
 app.use(express.static("public"));
