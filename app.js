@@ -7,9 +7,8 @@ const app = express();
 // use the express-static middleware
 app.use(express.static("public"));
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded());
 
 // define the first route
 app.get("/", function (req, res) {
@@ -18,6 +17,10 @@ app.get("/", function (req, res) {
 
 
 app.get('/user', (req, res) => {
+
+    var a = req.query.username;
+
+    console.log(a);
 
     var json = JSON.stringify(req.body);
  
