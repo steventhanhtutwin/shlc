@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql')
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -53,8 +53,4 @@ app.get('/user', (req, res) => {
 })
 
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
-
-
+app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
