@@ -55,6 +55,39 @@ app.get('/user', (req, res) => {
  })
 
 
+ 
+app.get('/login', (req, res) => {
+
+    //console.log(req.body);
+ 
+     var connection = mysql.createConnection({
+         user :'b786db4142dff0',
+         password : 'e7c35856',
+         host:'us-cdbr-east-02.cleardb.com',
+         database:'heroku_2fa387dfa408f94'
+     })
+    
+    var username = req.query.username;
+    var password = req.query.password;
+ 
+     connection.connect()
+ 
+     connection.query("SELECT * FROM heroku_2fa387dfa408f94.shlcusers where email = '"+ username + "' and password = '"+password+"';", function (err, rows, fields) {
+        if (err) throw err;
+        console.log(rows);
+     })
+ 
+     console.log("Connect");
+     
+     connection.end();
+ 
+     res.status(200).json({
+        status: 'succes',
+        data: req.body
+     })
+ })
+
+
 // start the server listening for requests
 app.listen(process.env.PORT || 3000, 
 	() => console.log("Server is running..."));
