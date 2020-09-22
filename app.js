@@ -58,6 +58,7 @@ app.get('/user', (req, res) => {
  
 app.get('/login', (req, res) => {
 
+    var rowsrecord;
     //console.log(req.body);
  
      var connection = mysql.createConnection({
@@ -70,20 +71,45 @@ app.get('/login', (req, res) => {
     var username = req.query.username;
     var password = req.query.password;
  
-     connection.connect()
- 
+     connection.connect();
+
      connection.query("SELECT * FROM heroku_2fa387dfa408f94.shlcusers where email = '"+ username + "' and password = '"+password+"';", function (err, rows, fields) {
-        if (err) throw err;
-        console.log(rows);
-     })
- 
-     console.log("Connect");
-     
-     connection.end();
- 
-     res.status(200).json({
-        status: 'succes',
-        data: req.body
+        if (err)
+        { 
+            throw err;
+        }
+        else
+        {
+            //console.log(rows);
+            // rowsrecord = rows.recordsets[0];
+            rowsrecord = rows;
+           // console.log(lng);
+
+           
+        }
+
+        connection.end();
+
+        console.log(rowsrecord.length);
+
+        if (rowsrecord.length > 0)
+        {
+            res.status(200).json({
+                data:rowsrecord,
+                status: 'success'
+            });
+        }
+        else
+        {
+            console.log("Hello");
+            res.status(300).json({
+                data:rowsrecord,
+                status: 'fail'
+             });     
+        }
+
+        res.end();
+
      })
  })
 
