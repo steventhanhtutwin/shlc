@@ -52,9 +52,7 @@ app.get('/user', (req, res) => {
         status: 'succes',
         data: req.body
      })
- })
-
-
+ });
  
 app.get('/login', (req, res) => {
 
@@ -111,7 +109,70 @@ app.get('/login', (req, res) => {
         res.end();
 
      })
- })
+ });
+
+
+ 
+app.get('/forgotpassword', (req, res) => {
+
+    var rowsrecord;
+    //console.log(req.body);
+ 
+     var connection = mysql.createConnection({
+         user :'b786db4142dff0',
+         password : 'e7c35856',
+         host:'us-cdbr-east-02.cleardb.com',
+         database:'heroku_2fa387dfa408f94'
+     })
+    
+    var username = req.query.username;
+ 
+     connection.connect();
+
+     connection.query("SELECT * FROM heroku_2fa387dfa408f94.shlcusers where email = '"+ username + "';", function (err, rows, fields) {
+        if (err)
+        { 
+            throw err;
+        }
+        else
+        {
+            //console.log(rows);
+            // rowsrecord = rows.recordsets[0];
+            rowsrecord = rows;
+           // console.log(lng);
+        }
+
+        connection.end();
+
+        console.log(rowsrecord.length);
+
+        if (rowsrecord.length > 0)
+        {
+            console.log("found");
+
+            //var passwordst = rowsrecord.password;
+
+            var pass = rowsrecord[0].password;
+
+            res.status(200).json({
+                data:rowsrecord,
+                status: 'success'
+            });
+        }
+        else
+        {
+            console.log("notfound");
+            res.status(400).json({
+                data:rowsrecord,
+                status: 'fail'
+             });     
+        }
+
+        res.end();
+
+     })
+ });
+
 
 
 // start the server listening for requests
