@@ -60,7 +60,7 @@ router.post('/forgotpassword', (req, res) => {
             '</head><body><div>'+
             'Hello,<br> <br> To reset your password please follow the link below:<br>' +
             '<a href = "https://shlc.study/resetpassword.html?email='+username+'">Reset Password </a>'+
-            'If you\'re not sure why you\'re receiving this message, you can report it to us by emailing <a href="tech.innocreation@gmail.com">tech.innocreation@gmail.com</a>.' +
+            '<br><br>If you\'re not sure why you\'re receiving this message, you can report it to us by emailing <a href="tech.innocreation@gmail.com">tech.innocreation@gmail.com</a>.' +
             '<br><br>Thanks, <br> SHLC Team</div></body></html>'
 
             var subject = 'Instructions for changing your SHLC Online Learning Platform Account password';
