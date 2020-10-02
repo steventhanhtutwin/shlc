@@ -7,6 +7,7 @@ var register = require('./modules/register');
 var login = require('./modules/login');
 var forgotpassword = require('./modules/forgotpassword');
 var resetpassword = require('./modules/resetpassword');
+var userdetials = require('./modules/userdetails');
 
 const app = express();
 
@@ -30,6 +31,8 @@ app.use('/user',register);
  app.use('/user',forgotpassword);
 
  app.use('/user',resetpassword);
+
+ app.use('/user',userdetials);
 
 // start the server listening for requests
 app.listen(process.env.PORT || 3000, 
