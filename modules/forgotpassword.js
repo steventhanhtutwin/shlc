@@ -8,6 +8,7 @@ const cryptr = new Cryptr('forgotpassword');
 
 const router = express.Router();
 
+
 router.use(cors());
 
 // use the express-static middleware

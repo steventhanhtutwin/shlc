@@ -5,7 +5,6 @@ let path = require('path');
 const nodemailer = require('nodemailer');
 const Handlebars = require('handlebars');
 
-
 // Open template file
 
 console.log(path.join(__dirname,'../views/forgotpassword.hbs'));

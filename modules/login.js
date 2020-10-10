@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.use(cors());
 
+
 // use the express-static middleware
 router.use(express.static("public"));
 

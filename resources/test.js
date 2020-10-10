@@ -7,5 +7,6 @@ nodemailer('steven.w.thanhtut@gmail.com','','',function(err,data){
     }
     else{
         console.log('Success!');
+        
     }
 });
