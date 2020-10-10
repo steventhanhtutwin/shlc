@@ -2,6 +2,7 @@ const express = require("express");
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const sendEmail = require('../resources/sendgmail');
 
 const router = express.Router();
 
@@ -15,10 +16,7 @@ router.use(bodyParser.json());
 
 router.post('/updateuserdetailsnopassword', (req, res) => {
 
-    var rowsrecord;
-    //console.log(req.body);
- 
-     var connection = mysql.createConnection({
+    var connection = mysql.createConnection({
          user :'b786db4142dff0',
          password : 'e7c35856',
          host:'us-cdbr-east-02.cleardb.com',
@@ -26,16 +24,15 @@ router.post('/updateuserdetailsnopassword', (req, res) => {
      })
 
      var username = req.body.username;
-     var password = req.body.password;
      var email = req.body.email;
      var phonenumber = req.body.phonenumber;
-     var oldemail = req.body.oldemaill;
+     var oldemail = req.body.oldemail;
 
      console.log(username);
     
      connection.connect();
      
-     connection.query("UPDATE heroku_2fa387dfa408f94.shlcusers set username = '"+ username +"',email = '"+ email +"',phonenumber = '"+ phonenumber +"', password = '"+ password +"' where email = '" + oldemail + "'", function (err, rows, fields) {
+     connection.query("UPDATE heroku_2fa387dfa408f94.shlcusers set username = '"+ username +"',email = '"+ email +"',phonenumber = '"+ phonenumber +"' where email = '" + oldemail + "'", function (err, rows, fields) {
 
         console.log('The solution is updated');
 
@@ -53,7 +50,9 @@ router.post('/updateuserdetailsnopassword', (req, res) => {
 
             var subject = 'SHLC: User Email Changed!';
 
-            sendEmail(username,subject,emailbody,function(err,data){
+            console.log(oldemail);
+
+            sendEmail(req.body.oldemail,subject,emailbody,function(err,data){
                 if(err){
                     console.log(err);
                 }

@@ -3,6 +3,8 @@ var cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const sendEmail = require('../resources/sendgmail');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('forgotpassword');
 
 const router = express.Router();
 
@@ -19,63 +21,88 @@ router.post('/forgotpassword', (req, res) => {
     var rowsrecord;
     //console.log(req.body);
  
-     var connection = mysql.createConnection({
-         user :'b786db4142dff0',
-         password : 'e7c35856',
-         host:'us-cdbr-east-02.cleardb.com',
-         database:'heroku_2fa387dfa408f94'
-     })
+    var connection = mysql.createConnection({
+        user :'b44f084e2826b8',
+        password : '21165fd2',
+        host:'us-cdbr-east-02.cleardb.com',
+        database:'heroku_8e74fc53b2ed17d'
+    })
     
-    var username = req.body.username;
+    var email = req.body.email;
 
-    console.log(username);
- 
+    console.log(email);
+
+    var forgotpasswordencrypts = cryptr.encrypt(new Date().toLocaleString() + email  );
+    console.log(cryptr.encrypt(new Date().toLocaleString() + email ));
+
+    var forgotpasswordencrypt = forgotpasswordencrypts.substring(1,20);
+
+    let forgotpasswordResetLink = 'https://shlc.study/resetpassword.html?data=' + forgotpasswordencrypt;
+
      connection.connect();
 
-     connection.query("SELECT * FROM heroku_2fa387dfa408f94.shlcusers where email = '"+ username + "';", function (err, rows, fields) {
+     //check email exist or not
+     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.users where email = '"+ email + "';", function (err, rows, fields) {
         if (err)
         { 
+            connection.end();
+
             throw err;
         }
         else
         {
-            //console.log(rows);
-            // rowsrecord = rows.recordsets[0];
             rowsrecord = rows;
-           // console.log(lng);
         }
-
-        connection.end();
 
         console.log(rowsrecord.length);
 
+        console.log("connection end!");
+        connection.end();
+
+        var connections = mysql.createConnection({
+            user :'b44f084e2826b8',
+            password : '21165fd2',
+            host:'us-cdbr-east-02.cleardb.com',
+            database:'heroku_8e74fc53b2ed17d'
+        })
+    
+        connections.connect();
+        connections.query("INSERT INTO heroku_8e74fc53b2ed17d.forgotpassword(Useremail, ResetURL, RequestedOn, Reset) values ('"+ email +"', '"+ forgotpasswordencrypt +"',CURRENT_TIMESTAMP(), '1' )", 
+            function (err, rows, fields) {
+                console.log('The solution is inserted');
+            }
+        );
+        connections.end();
+
+
+        // check with email is found or not
+        // if return rowsrecord > 0 is found the record
+        // if return rowsreocrd = 0 is not found the record
         if (rowsrecord.length > 0)
         {
             console.log("found");
 
-            //var passwordst = rowsrecord.password;
+            //forgot password email reset link
 
-            var emailbody = '<!DOCTYPE html>'+
-            '<html><head><title>Change Password</title>'+
-            '</head><body><div>'+
-            'Hello,<br> <br> To reset your password please follow the link below:<br>' +
-            '<a href = "https://shlc.study/resetpassword.html?email='+username+'">Reset Password </a>'+
-            '<br><br>If you\'re not sure why you\'re receiving this message, you can report it to us by emailing <a href="tech.innocreation@gmail.com">tech.innocreation@gmail.com</a>.' +
-            '<br><br>Thanks, <br> SHLC Team</div></body></html>'
+            var subject = 'SHLC Online Learning Platform : Change Password';
 
-            var subject = 'Instructions for changing your SHLC Online Learning Platform Account password';
-
-            sendEmail(username,subject,emailbody,function(err,data){
+            //send email 
+            sendEmail(email,subject,forgotpasswordResetLink,function(err,data){
                 if(err){
                     console.log(err);
+                    throw err;
                 }
                 else{
+                    console.log(forgotpasswordResetLink);
                     console.log('Success!');
+
+                    //for forgot password
+
                 }
             });
 
-            var pass = rowsrecord[0].password;
-
+            //var pass = rowsrecord[0].password;
+            //send status after sent email
             res.status(200).json({
                 data:rowsrecord,
                 status: 'success'
@@ -89,7 +116,7 @@ router.post('/forgotpassword', (req, res) => {
                 status: 'fail'
              });     
         }
-
+        
         res.end();
 
      })

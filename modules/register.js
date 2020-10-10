@@ -16,29 +16,58 @@ router.use(bodyParser.json());
 router.post('/register', function(req, res) {
     //console.log(req.body);
  
-     var connection = mysql.createConnection({
-         user :'b786db4142dff0',
-         password : 'e7c35856',
-         host:'us-cdbr-east-02.cleardb.com',
-         database:'heroku_2fa387dfa408f94'
-     })
+    var connection = mysql.createConnection({
+        user :'b44f084e2826b8',
+        password : '21165fd2',
+        host:'us-cdbr-east-02.cleardb.com',
+        database:'heroku_8e74fc53b2ed17d'
+    })
     
+
     var username = req.body.username;
     var password = req.body.password;
     var email = req.body.email;
     var phonenumber = req.body.phonenumber;
-    var address = req.body.address;
-    var selectpainting = req.body.selectpainting;
+    var courseid = req.body.courseid;
+
+    if(courseid > 0)
+    {
+        console.log('>0');
+    } 
+    else
+    {
+        console.log('=0');
+    }
  
-     connection.connect()
+    console.log(courseid);
+    connection.connect();
  
-     connection.query("INSERT INTO heroku_2fa387dfa408f94.shlcusers(username, password, email, phonenumber, address, selectpanting) values ('"+ username +"','"+ password +"','"+ email + "','"+ phonenumber + "','"+ address + "','"+ selectpainting + "')", function (err, rows, fields) {
+     connection.query("INSERT INTO heroku_8e74fc53b2ed17d.users(name, password, email, phonenumber, status, registeron) values ('"+ username +"', Password('"+ password +"'),'"+ email + "','"+ phonenumber + "','0', CURRENT_TIMESTAMP() )", function (err, rows, fields) {
         console.log('The solution is inserted');
      })
  
-     console.log("Connect");
-     
+     console.log("Connect users");
+
      connection.end();
+
+
+     var connections = mysql.createConnection({
+        user :'b44f084e2826b8',
+        password : '21165fd2',
+        host:'us-cdbr-east-02.cleardb.com',
+        database:'heroku_8e74fc53b2ed17d'
+    })
+    
+
+     connections.connect();
+ 
+     connections.query("INSERT INTO heroku_8e74fc53b2ed17d.enrollment(useremail,CourseId,RequestedOn,status) values ('"+ email +"', '"+ courseid +"', CURRENT_TIMESTAMP(), '0' )", function (err, rows, fields) {
+        console.log('The solution is inserted');
+     })
+ 
+     console.log("Connect enrollment");
+     
+     connections.end();
  
      res.status(200).json({
         status: 'succes',

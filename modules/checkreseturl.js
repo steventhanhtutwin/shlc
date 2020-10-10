@@ -2,6 +2,8 @@ const express = require("express");
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('forgotpassword');
 
 const router = express.Router();
 
@@ -13,10 +15,8 @@ router.use(express.static("public"));
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-router.post('/login', (req, res) => {
+router.post('/checkreseturl', (req, res) => {
 
-    var rowsrecord;
- 
     var connection = mysql.createConnection({
         user :'b44f084e2826b8',
         password : '21165fd2',
@@ -24,34 +24,32 @@ router.post('/login', (req, res) => {
         database:'heroku_8e74fc53b2ed17d'
     })
     
-    var username = req.body.username;
-    var password = req.body.password;
+    var reseturl = req.body.ResetURL;
 
-    console.log(username);
-    console.log(password);
- 
-     connection.connect();
+    connection.connect();
 
-     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.users where status = 1 and email = '"+ username + "' and password = Password('"+password+"') ;", function (err, rows, fields) {
+     //check email exist or not
+     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.forgotpassword where TIMESTAMPDIFF(HOUR, requestedon, CURRENT_TIMESTAMP()) < 25 and ResetURL = '"+ reseturl + "';", function (err, rows, fields) {
         if (err)
         { 
+            connection.end();
+
             throw err;
         }
         else
         {
-            //console.log(rows);
-            // rowsrecord = rows.recordsets[0];
             rowsrecord = rows;
-           // console.log(lng);
         }
 
-        connection.end();
-
         console.log(rowsrecord.length);
+
+        console.log("connection end!");
+        connection.end();
 
         if (rowsrecord.length > 0)
         {
             console.log("Found!");
+            
             res.status(200).json({
                 data:rowsrecord,
                 status: 'success'
@@ -68,8 +66,8 @@ router.post('/login', (req, res) => {
         }
 
         res.end();
+    })
 
-     })
- });
+});
 
- module.exports = router;
+module.exports = router;

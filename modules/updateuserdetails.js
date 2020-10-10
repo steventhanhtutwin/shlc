@@ -3,6 +3,7 @@ var cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const e = require("express");
+const sendEmail = require('../resources/sendgmail');
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.use(bodyParser.json());
 
 router.post('/updateuserdetails', (req, res) => {
 
+    console.log("Hello");
      var connection = mysql.createConnection({
          user :'b786db4142dff0',
          password : 'e7c35856',
@@ -50,7 +52,7 @@ router.post('/updateuserdetails', (req, res) => {
 
             var subject = 'SHLC: User Email Changed!';
 
-            sendEmail(username,subject,emailbody,function(err,data){
+            sendEmail(oldemail,subject,emailbody,function(err,data){
                 if(err){
                     console.log(err);
                 }
