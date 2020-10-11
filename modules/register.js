@@ -2,6 +2,7 @@ const express = require("express");
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const sendEmail = require('../resources/enrollcourse');
 
 const router = express.Router();
 
@@ -47,28 +48,65 @@ router.post('/register', function(req, res) {
         console.log('The solution is inserted');
      })
  
-     console.log("Connect users");
+     console.log("Register Users");
 
      connection.end();
 
 
-     var connections = mysql.createConnection({
-        user :'b44f084e2826b8',
-        password : '21165fd2',
-        host:'us-cdbr-east-02.cleardb.com',
-        database:'heroku_8e74fc53b2ed17d'
-    })
-    
+    if(courseid > 0)
+    {
+        var connections = mysql.createConnection({
+            user :'b44f084e2826b8',
+            password : '21165fd2',
+            host:'us-cdbr-east-02.cleardb.com',
+            database:'heroku_8e74fc53b2ed17d'
+        })
 
-     connections.connect();
+        connections.connect();
+    
+        connections.query("INSERT INTO heroku_8e74fc53b2ed17d.enrollment(useremail,CourseId,RequestedOn,status) values ('"+ email +"', '"+ courseid +"', CURRENT_TIMESTAMP(), '0' )", function (err, rows, fields) {
+            console.log('The solution is inserted');
+
+            
+                    var courses ='';
+
+                    if(courseid == 1)
+                    {
+                        courses = 'Basic Acrylic Painting Class';
+                    }
+                    else if (courseid ==2)
+                    {
+                        courses ='Revit Family Creation';
+                    }
+                    else
+                    {
+                        courses ='အားလုံးအတွက် Japan စာ';
+
+                    }
+
+                    var subject = 'SHLC Online Learning Platform : Enrollment for '+courses ;
+
+                    //send email 
+                    sendEmail(email,subject,courses,function(err,data){
+                        if(err){
+                            console.log(err);
+                            throw err;
+                        }
+                        else{
+                            console.log(courses);
+                            console.log('Success!');
+        
+                            //for forgot password
+                        }
+                    });
+        });
+
+        console.log("Complete enrollment");
+        
+        connections.end();
+    }
  
-     connections.query("INSERT INTO heroku_8e74fc53b2ed17d.enrollment(useremail,CourseId,RequestedOn,status) values ('"+ email +"', '"+ courseid +"', CURRENT_TIMESTAMP(), '0' )", function (err, rows, fields) {
-        console.log('The solution is inserted');
-     })
- 
-     console.log("Connect enrollment");
-     
-     connections.end();
+   
  
      res.status(200).json({
         status: 'succes',
