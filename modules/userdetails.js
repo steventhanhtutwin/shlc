@@ -19,12 +19,12 @@ router.post('/userdetails', (req, res) => {
     var rowsrecord;
     //console.log(req.body);
  
-     var connection = mysql.createConnection({
-         user :'b786db4142dff0',
-         password : 'e7c35856',
-         host:'us-cdbr-east-02.cleardb.com',
-         database:'heroku_2fa387dfa408f94'
-     })
+    var connection = mysql.createConnection({
+        user :'b44f084e2826b8',
+        password : '21165fd2',
+        host:'us-cdbr-east-02.cleardb.com',
+        database:'heroku_8e74fc53b2ed17d'
+    });
 
      var useremail = req.body.useremail;
 
@@ -32,7 +32,7 @@ router.post('/userdetails', (req, res) => {
      
      connection.connect();
      
-     connection.query("select * from heroku_2fa387dfa408f94.shlcusers where email = '" + useremail + "'", function (err, rows, fields) {
+     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.users where email = '" + useremail + "'", function (err, rows, fields) {
 
         if (err)
         { 
