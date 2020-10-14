@@ -34,7 +34,7 @@ router.post('/updateuserdetails', (req, res) => {
     
      connection.connect();
      
-     connection.query("UPDATE heroku_8e74fc53b2ed17d.users set password = '"+ passwords +"' where email = '" + emails + "';", function (err, rows, fields) {
+     connection.query("UPDATE heroku_8e74fc53b2ed17d.users set password = Password('"+ password +"') where email = '" + emails + "';", function (err, rows, fields) {
 
         console.log('The solution is updated');
         
