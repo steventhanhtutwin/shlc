@@ -10,6 +10,7 @@ var resetpassword = require('./modules/resetpassword');
 var userdetials = require('./modules/userdetails');
 var userdetailsnopassword = require('./modules/updateuserdetailsnopassword');
 var resetpasswordcheckurl = require('./modules/checkreseturl');
+var enrollmentuser = require('./modules/enrollment');
 
 
 const app = express();
@@ -40,6 +41,8 @@ app.use('/user',register);
  app.use('/user',userdetailsnopassword);
 
  app.use('/user',resetpasswordcheckurl);
+
+ app.use('/user',enrollmentuser);
 
 // start the server listening for requests
 app.listen(process.env.PORT || 3000, 
