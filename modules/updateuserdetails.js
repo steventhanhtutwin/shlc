@@ -19,49 +19,24 @@ router.use(bodyParser.json());
 router.post('/updateuserdetails', (req, res) => {
 
     console.log("Hello");
-     var connection = mysql.createConnection({
-         user :'b786db4142dff0',
-         password : 'e7c35856',
-         host:'us-cdbr-east-02.cleardb.com',
-         database:'heroku_2fa387dfa408f94'
-     })
 
-     var username = req.body.username;
-     var email = req.body.email;
-     var phonenumber = req.body.phonenumber;
-     var oldemail = req.body.oldemaill;
+    var connection = mysql.createConnection({
+        user :'b44f084e2826b8',
+        password : '21165fd2',
+        host:'us-cdbr-east-02.cleardb.com',
+        database:'heroku_8e74fc53b2ed17d'
+    })
 
-     console.log(username);
+     var emails = req.body.email;
+     var passwords = req.body.password;
+
+     console.log(emails);
     
      connection.connect();
      
-     connection.query("UPDATE heroku_2fa387dfa408f94.shlcusers set username = '"+ username +"',email = '"+ email +"',phonenumber = '"+ phonenumber  +"' where email = '" + oldemail + "'", function (err, rows, fields) {
+     connection.query("UPDATE heroku_8e74fc53b2ed17d.users set password = '"+ passwords +"' where email = '" + emails + "';", function (err, rows, fields) {
 
         console.log('The solution is updated');
-
-        if(email.trim() == oldemail.trim())
-        {
-            console.log("same!");
-        }
-        else{
-            var emailbody = '<!DOCTYPE html>'+
-            '<html><head><title>Change Password</title>'+
-            '</head><body><div>'+
-            'Hello,<br> <br> The email address associated with your account has recently been changed to '+email +
-            'If you believe this is an error, please click on the button below to visit our support portal, through which you can contact our support team.<br>' +
-            'Thanks and Regards, <br> The Support SHLC Team'
-
-            var subject = 'SHLC: User Email Changed!';
-
-            sendEmail(oldemail,subject,emailbody,function(err,data){
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    console.log('Success!');
-                }
-            });
-        }
         
      })
  
