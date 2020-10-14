@@ -84,7 +84,7 @@ router.post('/register', function(req, res) {
 
                     }
 
-                    var subject = 'SHLC Online Learning Platform : Enrollment for '+courses ;
+                    var subject = 'SHLC Learning Platform Enrollment for '+courses ;
 
                     //send email 
                     sendEmail(email,subject,courses,function(err,data){
