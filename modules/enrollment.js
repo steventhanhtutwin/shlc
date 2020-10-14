@@ -31,7 +31,7 @@ router.post('/enrollment', (req, res) => {
 
     connection.connect();
 
-     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.enrollment where useremail = '"+ email + "' ;", function (err, rows, fields) {
+     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.enrollment where status > 0 and useremail = '"+ email + "' ;", function (err, rows, fields) {
         if (err)
         { 
             throw err;
