@@ -11,6 +11,7 @@ var userdetials = require('./modules/userdetails');
 var userdetailsnopassword = require('./modules/updateuserdetailsnopassword');
 var resetpasswordcheckurl = require('./modules/checkreseturl');
 var enrollmentuser = require('./modules/enrollment');
+var updateuserdetails = require('./modules/updateuserdetails');
 
 
 const app = express();
@@ -43,6 +44,8 @@ app.use('/user',register);
  app.use('/user',resetpasswordcheckurl);
 
  app.use('/user',enrollmentuser);
+
+app.use('/user',updateuserdetails);
 
 // start the server listening for requests
 app.listen(process.env.PORT || 3000, 
