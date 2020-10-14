@@ -26,7 +26,7 @@ router.post('/userdetails', (req, res) => {
         database:'heroku_8e74fc53b2ed17d'
     });
 
-     var useremail = req.body.useremail;
+     var useremail = req.body.email;
 
       console.log(useremail);
      
