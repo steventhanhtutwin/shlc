@@ -47,6 +47,15 @@ app.use('/user',register);
 
 app.use('/user',updateuserdetails);
 
+// Global error handler - route handlers/middlewares which throw end up here
+app.use((err, req, res, next) => {
+  // response to user with 403 error and details
+  console.error(err.stack);
+
+  res.status(500).send('Something broke!');
+
+});
+
 // start the server listening for requests
 app.listen(process.env.PORT || 3000, 
 	() => console.log("Server is running..."));
