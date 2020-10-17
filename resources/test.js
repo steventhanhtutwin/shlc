@@ -1,12 +1,19 @@
 
-const nodemailer = require('./sendgmail');
+const sendEmail = require('./sendgmail');
 
-nodemailer('steven.w.thanhtut@gmail.com','','',function(err,data){
-    if(err){
-        console.log(err);
-    }
-    else{
-        console.log('Success!');
+var subject = 'SHLC Online Learning Platform :Enrollment for '+ courses;
+
+                    //send email 
+                    sendEmail('steven.w.thanhtut@gmail.com',subject,courses,function(err,data){
+                        if(err){
+                            console.log(err);
+                            throw err;
+                        }
+                        else{
+                            console.log(courses);
+                            console.log('Success!');
         
-    }
-});
+                            //for forgot password
+        
+                        }
+                    });

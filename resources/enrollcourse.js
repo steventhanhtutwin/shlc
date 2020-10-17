@@ -30,6 +30,8 @@ let transporter = nodemailer.createTransport({
 });
 
 const sendMail = (email,subjects,text,cb) => {
+
+    try {
     const mailOption = {
         from: 'support@shlc.study',
         to: email,
@@ -37,16 +39,23 @@ const sendMail = (email,subjects,text,cb) => {
         html: template({text})
     };
     
-    transporter.sendMail(mailOption,function(err,data){
-        if(err)
-        {
-            cb(err,null);
-        }
-        else
-        {
-            cb(null,data);
-        }
-    });
+    
+        transporter.sendMail(mailOption,function(err,data){
+            if(err)
+            {
+                //console.error(err);
+                cb(err,null);
+            }
+            else
+            {
+                cb(null,data);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    
+
 }
 
 module.exports = sendMail;
