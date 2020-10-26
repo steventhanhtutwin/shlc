@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.use(cors());
 
-
 // use the express-static middleware
 router.use(express.static("public"));
 
@@ -18,13 +17,6 @@ router.use(bodyParser.json());
 router.post('/login', (req, res) => {
 
     var rowsrecord;
- 
-    var connection = mysql.createConnection({
-        user :'b44f084e2826b8',
-        password : '21165fd2',
-        host:'us-cdbr-east-02.cleardb.com',
-        database:'heroku_8e74fc53b2ed17d'
-    })
     
     var username = req.body.username;
     var password = req.body.password;
@@ -34,28 +26,24 @@ router.post('/login', (req, res) => {
     console.log(password);
     console.log(courseid);
 
-    if(courseid > 0)
-    {
-        console.log('>0');
-    } 
-    else
-    {
-        console.log('=0');
-    }
+ 
+    var connection = mysql.createConnection({
+        user :'b44f084e2826b8',
+        password : '21165fd2',
+        host:'us-cdbr-east-02.cleardb.com',
+        database:'heroku_8e74fc53b2ed17d'
+    })
  
      connection.connect();
 
-     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.users where status = 1 and email = '"+ username + "' and password = Password('"+password+"') ;", function (err, rows, fields) {
+     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.users where email = '"+ username + "' and password = Password('"+password+"') ;", function (err, rows, fields) {
         if (err)
         { 
             throw err;
         }
         else
         {
-            //console.log(rows);
-            // rowsrecord = rows.recordsets[0];
             rowsrecord = rows;
-           // console.log(lng);
         }
 
         connection.end();
@@ -69,57 +57,49 @@ router.post('/login', (req, res) => {
                 host:'us-cdbr-east-02.cleardb.com',
                 database:'heroku_8e74fc53b2ed17d'
             })
-            
-        
+
             connections.connect();
         
             connections.query("INSERT INTO heroku_8e74fc53b2ed17d.enrollment(useremail,CourseId,RequestedOn,status) values ('"+ username +"', '"+ courseid +"', CURRENT_TIMESTAMP(), '0' )", function (err, rows, fields) {
-                console.log('The solution is inserted');
-
-
-                
-                    var courses ='';
-
-                    if(courseid == 1)
-                    {
-                        courses = 'Basic Acrylic Painting Class';
-                    }
-                    else if (courseid ==2)
-                    {
-                        courses ='Revit Family Creation';
-                    }
-                    else
-                    {
-                        courses ='အားလုံးအတွက် Japan စာ';
-
-                    }
-
-                    var subject = 'SHLC Online Learning Platform :Enrollment for '+ courses;
-
-                    //send email 
-                    sendEmail(username,subject,courses,function(err,data){
-                        if(err){
-                            console.log(err);
-                            throw err;
-                        }
-                        else{
-                            console.log(courses);
-                            console.log('Success!');
-        
-                            //for forgot password
-        
-                        }
-                    });
-                
+                console.log('The solution is inserted');   
             });
 
             connections.end();
 
             console.log("Done enrollment");
-        }
-     
-         
 
+
+            var courses ='';
+
+            if(courseid == 1)
+            {
+                courses = 'Basic Acrylic Painting Class';
+            }
+            else if (courseid ==2)
+            {
+                courses ='Revit Family Creation';
+            }
+            else
+            {
+                courses ='အားလုံးအတွက် Japan စာ';
+            }
+
+            var subject = 'SHLC Online Learning Platform :Enrollment for '+ courses;
+
+            //send email 
+            sendEmail(username,subject,courses,function(err,data){
+                if(err){
+                    console.log(err);
+                    throw err;
+                }
+                else{
+                    console.log(courses);
+                    console.log('Success!');
+                }
+            });
+
+        }
+      
         console.log(rowsrecord.length);
 
         if (rowsrecord.length > 0)

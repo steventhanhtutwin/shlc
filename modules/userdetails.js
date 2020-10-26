@@ -16,59 +16,10 @@ router.use(bodyParser.json());
 
 router.post('/userdetails', (req, res) => {
 
-    var rowsrecord;
-    //console.log(req.body);
- 
-    var connection = mysql.createConnection({
-        user :'b44f084e2826b8',
-        password : '21165fd2',
-        host:'us-cdbr-east-02.cleardb.com',
-        database:'heroku_8e74fc53b2ed17d'
-    });
-
-     var useremail = req.body.email;
-
-      console.log(useremail);
-     
-     connection.connect();
-     
-     connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.users where email = '" + useremail + "'", function (err, rows, fields) {
-
-        if (err)
-        { 
-            connection.end();
-            throw err;
-        }
-        else
-        {
-            //console.log(rows);
-            // rowsrecord = rows.recordsets[0];
-            rowsrecord = rows;
-
-            connection.end();
-           // console.log(lng);
-        }
-
-        if (rowsrecord.length > 0)
-        {
-            console.log("Found!");
-            res.status(200).json({
-                data:rowsrecord,
-                status: 'success'
-            });
-        }
-        else
-        {
-            console.log("Not Found!");
-
-            res.status(300).json({
-                data:rowsrecord,
-                status: 'fail'
-             });     
-        }
-
-        res.end();
-     })
+    res.status(200).json({
+        data:'',
+        status: 'success'
+    })
  });
 
  module.exports = router;
