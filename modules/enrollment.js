@@ -50,6 +50,7 @@ router.post('/enrollment', (req, res) => {
             rowsrecord = rows;
            // console.log(lng);
         }
+    });
 
         connection.end();
      
@@ -74,7 +75,7 @@ router.post('/enrollment', (req, res) => {
         }
 
         res.end();
-     })
+    
  });
 
  module.exports = router;
