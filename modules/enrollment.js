@@ -54,7 +54,7 @@ router.post('/enrollment', (req, res) => {
 
         connection.end();
      
-        console.log(rowsrecord.length);
+       // console.log(rowsrecord.length);
 
         if (rowsrecord.length > 0)
         {
