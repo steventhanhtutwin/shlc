@@ -36,7 +36,12 @@ router.post('/enrollment', (req, res) => {
      connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.enrollment where status > 0 and useremail = '"+ email + "' ;", function (err, rows, fields) {
         if (err)
         { 
-            throw err;
+            res.status(400).json({
+                status: 'fail',
+                errmessage: 'user email format is not correct'
+            });
+
+            res.end();
         }
         else
         {

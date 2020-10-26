@@ -31,8 +31,6 @@ app.get("/", function (req, res) {
 
 app.use('/user',register);
 
- app.use('/user',login);
-
  app.use('/user',forgotpassword);
 
  app.use('/user',resetpassword);
@@ -46,6 +44,9 @@ app.use('/user',register);
  app.use('/user',enrollmentuser);
 
 app.use('/user',updateuserdetails);
+
+app.use('/user',login);
+
 
 // Global error handler - route handlers/middlewares which throw end up here
 app.use((err, req, res, next) => {
