@@ -37,13 +37,7 @@ var connection = mysql.createConnection({
 
     if (err)
     { 
-        connection.end();
-        res.status(400).json({
-            status: 'fail',
-            errmessage: 'user email format is not correct'
-        });
-
-        res.end();
+        
     }
     else
     {
@@ -51,9 +45,12 @@ var connection = mysql.createConnection({
         // rowsrecord = rows.recordsets[0];
         rowsrecord = rows;
 
-        connection.end();
        // console.log(lng);
     }
+
+});
+
+connection.end();
 
     if (rowsrecord.length > 0)
     {
@@ -77,7 +74,6 @@ var connection = mysql.createConnection({
  });
 
 
- });
 
  module.exports = router;
  
