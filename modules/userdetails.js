@@ -48,9 +48,9 @@ var connection = mysql.createConnection({
        // console.log(lng);
     }
 
-});
 
-connection.end();
+
+    connection.end();
 
     if (rowsrecord.length > 0)
     {
@@ -72,6 +72,8 @@ connection.end();
 
     res.end();
  });
+
+});
 
 
 
