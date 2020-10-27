@@ -27,14 +27,14 @@ router.post('/login', (req, res) => {
     console.log(courseid);
 
  
-    var connection = mysql.createConnection({
+    var connection = mysql.createPool({
         user :'b44f084e2826b8',
         password : '21165fd2',
         host:'us-cdbr-east-02.cleardb.com',
         database:'heroku_8e74fc53b2ed17d'
     })
  
-     connection.connect();
+     //connection.connect();
 
      connection.query("SELECT * FROM heroku_8e74fc53b2ed17d.users where email = '"+ username + "' and password = Password('"+password+"') ;", function (err, rows, fields) {
         if (err)
@@ -46,7 +46,7 @@ router.post('/login', (req, res) => {
             rowsrecord = rows;
         }
 
-        connection.end();
+        //connection.end();
 
         if(courseid > 0)
         {
